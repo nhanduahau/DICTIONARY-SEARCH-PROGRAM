@@ -14,6 +14,9 @@ A C++ implementation comparing the performance and memory efficiency of **Binary
 - [Performance Comparison](#performance-comparison)
 - [File Format](#file-format)
 - [Example Output](#example-output)
+- [Class Structure](#class-structure)
+- [Educational Value](#educational-value)
+- [Course Information](#course-information)
 
 ## 🎯 Overview
 
@@ -56,16 +59,19 @@ The program loads a dictionary from a text file and allows users to search for w
 ## 📁 Project Structure
 
 ```
-projectFinal/
-├── main.cpp              # Main program and menu system
+DICTIONARY-SEARCH-PROGRAM/
+├── main.cpp              # Main program entry point and menu system
+├── Main.h                # Main header with constants
+├── Functions.h           # Function declarations for utilities
+├── Functions.cpp         # Function implementations (load, search, compare)
 ├── BinaryTree.h          # BST class declaration
-├── BinaryTree.cpp        # BST implementation
+├── BinaryTree.cpp        # BST implementation with level-order insertion
 ├── Trie.h                # Trie class declaration
-├── Trie.cpp              # Trie implementation
+├── Trie.cpp              # Trie implementation with unordered_map
 ├── Word.h                # Word class declaration
 ├── Word.cpp              # Word class implementation
-├── dictionary.txt        # Dictionary data file
-└── README.md             # This file
+├── dictionary.txt        # Dictionary data file (109,999 words)
+└── README.md             # Project documentation
 ```
 
 ## 🔧 Requirements
@@ -76,25 +82,33 @@ projectFinal/
 
 ## 🚀 Installation
 
-### 1. Compile the Program
-
-#### Using g++:
+### 1. Clone or Download the Project
 
 ```powershell
-g++ -std=c++11 main.cpp BinaryTree.cpp Trie.cpp Word.cpp -o dictionary_search
+cd "d:\ACC-TXST\2025 - Fall\CS 3358\DICTIONARY-SEARCH-PROGRAM"
+```
+
+### 2. Compile the Program
+
+#### Using g++ (MinGW on Windows):
+
+```powershell
+g++ -std=c++11 main.cpp BinaryTree.cpp Trie.cpp Word.cpp Functions.cpp -o dictionary_search.exe
 ```
 
 #### Using MSVC (Visual Studio):
 
 ```powershell
-cl /EHsc main.cpp BinaryTree.cpp Trie.cpp Word.cpp /Fe:dictionary_search.exe
+cl /EHsc /std:c++17 main.cpp BinaryTree.cpp Trie.cpp Word.cpp Functions.cpp /Fe:dictionary_search.exe
 ```
 
-### 2. Run the Program
+### 3. Run the Program
 
 ```powershell
-.\dictionary_search
+.\dictionary_search.exe
 ```
+
+**Note**: Ensure `dictionary.txt` is in the same directory as the executable.
 
 ## 💻 Usage
 
@@ -209,32 +223,70 @@ Trie: 156 ns
 
 ## 🧪 Class Structure
 
-### Word Class
+### Word Class (`Word.h`, `Word.cpp`)
 
-- Stores word, part of speech, and definition
-- Implements comparison operators for BST ordering
+- **Attributes**:
+  - `std::string name` - The word itself
+  - `std::string partOfSpeech` - Grammatical classification
+  - `std::string definition` - Word meaning
+- **Methods**:
+  - Constructors (default and parameterized)
+  - Comparison operators (`<`, `>`, `==`) for BST ordering
+  - Getters and display methods
 
-### TreeNode Class
+### TreeNode Class (`BinaryTree.h`)
 
-- Represents a node in the BST
-- Contains Word object and left/right pointers
+- **Attributes**:
+  - `Word word` - Word data object
+  - `TreeNode* left` - Left child pointer
+  - `TreeNode* right` - Right child pointer
+- **Purpose**: Node structure for Binary Search Tree
 
-### TrieNode Class
+### BinaryTree Class (`BinaryTree.h`, `BinaryTree.cpp`)
 
-- Represents a node in the Trie
-- Uses `unordered_map<char, TrieNode*>` for children
-- Stores Word pointer at end-of-word nodes
+- **Private Members**:
+  - `TreeNode* root` - Root of the tree
+  - `int nodeCount` - Total number of nodes
+- **Key Methods**:
+  - `void insert(const Word& word)` - Level-order insertion (complete binary tree)
+  - `Word* search(const std::string& name)` - Search for a word
+  - `long long searchWithTiming(...)` - Search with performance measurement (nanoseconds)
+  - `int getMemoryUsage()` - Calculate memory footprint
+  - `void displayTree()` - Visual tree structure (first 10 words)
+- **Complexity**:
+  - Insert: O(log n) average
+  - Search: O(log n) average, O(n) worst case
 
-### BinaryTree Class
+### TrieNode Class (`Trie.h`)
 
-- Implements BST with standard insert and search
-- Provides performance timing and memory analysis
+- **Attributes**:
+  - `std::unordered_map<char, TrieNode*> children` - Child nodes mapped by character
+  - `Word* word` - Pointer to word data (nullptr if not end of word)
+  - `bool isEndOfWord` - Flag indicating complete word
+- **Purpose**: Node structure for Trie (Prefix Tree)
 
-### Trie Class
+### Trie Class (`Trie.h`, `Trie.cpp`)
 
-- Implements prefix tree with character-by-character storage
-- Case-insensitive search capability
-- Optimized memory usage with unordered_map
+- **Private Members**:
+  - `TrieNode* root` - Root of the trie
+  - `int nodeCount` - Total number of nodes
+- **Key Methods**:
+  - `void insert(const Word& word)` - Character-by-character insertion
+  - `Word* search(const std::string& name)` - Case-insensitive prefix search
+  - `long long searchWithTiming(...)` - Search with performance measurement (nanoseconds)
+  - `int getMemoryUsage()` - Calculate memory footprint
+  - `void displayTree()` - Visual trie structure (first 10 words)
+- **Complexity**:
+  - Insert: O(m) where m = word length
+  - Search: O(m) where m = word length
+
+### Functions Module (`Functions.h`, `Functions.cpp`)
+
+- `void loadWords(filename, tree, trie)` - Parse dictionary.txt and populate both structures
+- `void displayMenu()` - Show interactive menu options
+- `void searchWord(tree, trie)` - User input search with side-by-side comparison
+- `void comparePerformance(tree, trie, testCases)` - Batch testing with 10 predefined words
+- `void displayMemoryUsage(tree, trie)` - Memory analysis and comparison
 
 ## 🎓 Educational Value
 
@@ -250,31 +302,40 @@ This project demonstrates:
 
 - **Course**: CS 3358 - Data Structures
 - **Semester**: Fall 2025
-- **Institution**: TXST
+- **Institution**: ACC-TXST (Austin Community College - Texas State University)
+- **Project Type**: Final Project - Data Structure Comparison Study
 
 ## 🐛 Known Limitations
 
-- Tree structure display limited to first 10 words (for readability)
-- BST not self-balancing (AVL or Red-Black tree could improve worst-case performance)
-- Trie memory usage is higher due to character-level storage
+- Tree structure display limited to first 10 words for readability
+- BST uses level-order insertion (not self-balancing like AVL or Red-Black tree)
+- Trie memory usage is significantly higher due to character-level storage
+- Case sensitivity: BST is case-sensitive, Trie is case-insensitive
 
 ## 🔮 Future Improvements
 
 - [ ] Implement AVL or Red-Black tree for balanced BST
-- [ ] Add autocomplete functionality using Trie
-- [ ] Support for fuzzy search
-- [ ] Export performance metrics to CSV
-- [ ] GUI interface
-- [ ] Additional data structures (Hash Table, B-Tree)
+- [ ] Add autocomplete functionality using Trie prefix search
+- [ ] Support for fuzzy search and spell-checking
+- [ ] Export performance metrics to CSV or JSON
+- [ ] GUI interface with graphical tree visualization
+- [ ] Additional data structures (Hash Table, B-Tree, Skip List)
+- [ ] Support for multiple dictionaries and languages
+- [ ] Add word frequency analysis
 
 ## 📄 License
 
-This is an educational project for CS 3358 course.
+This is an educational project for CS 3358 course at ACC-TXST.
 
 ## 👤 Author
 
-Ly Huu Nhan To - Harry To
+**Ly Huu Nhan To (Harry To)**
+
+- GitHub: [@nhanduahau](https://github.com/nhanduahau)
+- Repository: [DICTIONARY-SEARCH-PROGRAM](https://github.com/nhanduahau/DICTIONARY-SEARCH-PROGRAM)
 
 ---
+
+**Last Updated**: October 26, 2025
 
 **Note**: Ensure `dictionary.txt` is in the same directory as the executable when running the program.
