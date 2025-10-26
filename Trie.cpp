@@ -98,14 +98,14 @@ void Trie::insert(const Word &word)
             current->children[lowerC] = new TrieNode();
             nodeCount++; // Increment total node count
         }
-        
+
         // Move to the child node
         current = current->children[lowerC];
     }
 
     // Mark the last node as end of a valid word
     current->isEndOfWord = true;
-    
+
     // Store a copy of the complete Word object at this node
     current->word = new Word(word);
 }
@@ -136,7 +136,7 @@ Word *Trie::search(const std::string &name) const
         {
             return nullptr; // Word not found
         }
-        
+
         // Move to the next node in the path
         current = current->children.at(lowerC);
     }
@@ -160,10 +160,10 @@ long long Trie::searchWithTiming(const std::string &name, Word *&result)
 {
     // Record start time with high precision
     auto start = std::chrono::high_resolution_clock::now();
-    
+
     // Perform the search
     result = search(name);
-    
+
     // Record end time
     auto end = std::chrono::high_resolution_clock::now();
 
@@ -249,12 +249,12 @@ void Trie::displayTree() const
         std::cout << "Trie is empty!" << std::endl;
         return;
     }
-    
+
     int count = 0;
     std::cout << "Trie Structure (showing first 10 words):" << std::endl;
     std::cout << std::endl;
     std::cout << "root" << std::endl;
-    
+
     // Start recursive display from root
     displayTreeHelper(root, "", "", count, 10);
 }

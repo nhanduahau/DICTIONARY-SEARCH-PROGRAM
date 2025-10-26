@@ -40,14 +40,14 @@ void loadWords(const string &filename, BinaryTree &tree, Trie &trie)
         {
             // Create Word object and insert into both data structures
             Word med(word, partOfSpeech, definition);
-            tree.insert(med);  // Insert into Binary Search Tree
-            trie.insert(med);  // Insert into Trie
+            tree.insert(med); // Insert into Binary Search Tree
+            trie.insert(med); // Insert into Trie
             count++;
         }
     }
 
     file.close();
-    
+
     // Display success message with count
     cout << "Successfully loaded " << count << " words from dictionary!" << endl;
     cout << "========================================" << endl
