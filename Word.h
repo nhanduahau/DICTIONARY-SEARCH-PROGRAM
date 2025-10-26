@@ -2,6 +2,7 @@
 #define WORD_H
 
 #include <string>
+#include <iostream>
 
 class Word
 {

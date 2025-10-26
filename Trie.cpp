@@ -1,5 +1,4 @@
 #include "Trie.h"
-#include <iostream>
 
 // TrieNode Constructor
 TrieNode::TrieNode() : word(nullptr), isEndOfWord(false)

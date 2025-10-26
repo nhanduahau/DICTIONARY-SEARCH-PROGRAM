@@ -1,5 +1,4 @@
 #include "BinaryTree.h"
-#include <iostream>
 
 // TreeNode Constructor
 TreeNode::TreeNode(const Word &wd) : word(wd), left(nullptr), right(nullptr) {}

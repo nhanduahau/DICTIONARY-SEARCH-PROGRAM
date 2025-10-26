@@ -1,5 +1,4 @@
 #include "Word.h"
-#include <iostream>
 
 // Constructors
 Word::Word() : word(""), partOfSpeech(""), definition("") {}
